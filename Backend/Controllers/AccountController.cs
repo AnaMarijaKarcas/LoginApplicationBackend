@@ -14,27 +14,16 @@ namespace Backend.Controllers
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IDbRepo _dbRepo;
         private readonly DataContext _dataContext;
 
-        public AccountController(IUserRepository userRepository, DataContext dataContext)
+        public AccountController(IDbRepo dbRepo, DataContext dataContext)
         {
-            _userRepository = userRepository;
+            _dbRepo = dbRepo;
             _dataContext = dataContext;
         }
 
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] UserLoginRequest request)
-        {
-           
-            return Ok(new { Message = "Uspesno logovanje!" });
-        }
 
-        [HttpGet("users")]
-        public IActionResult GetAllUsers()
-        {
-            List<User> users = _userRepository.GetAllUsers();
-            return Ok(users);
-        }
+
     }
 }
