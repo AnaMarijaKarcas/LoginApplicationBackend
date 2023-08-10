@@ -14,10 +14,22 @@ namespace Backend.Services
 
         public bool CheckForUser(string userName, string password)
         {
-            if (_dbRepo.FindUserByEmail(userName) != null)
+            var user = _dbRepo.FindUserByEmail(userName);
+            if (user != null && CheckPassword(password, user.Password))
             {
-
+                return true;
             }
+            else return false;
         }
+
+
+        private bool CheckPassword(string password, string userPassword)
+        {
+            if (password == userPassword)
+                return true;
+            else
+                return false;
+        }
+
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Models;
 using Backend.Data;
+using Backend.Interfaces;
 
 namespace Backend.Controllers
 {   
@@ -14,27 +15,32 @@ namespace Backend.Controllers
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
-        private readonly DataContext _dataContext;
+        private readonly IUserService _userService;
+        private readonly IValidateService _validateService;
 
-        public AccountController(IUserRepository userRepository, DataContext dataContext)
+        public AccountController(IUserService userService, IValidateService validateService)
         {
-            _userRepository = userRepository;
-            _dataContext = dataContext;
+            _userService = userService;
+            _validateService = validateService;
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] UserLoginRequest request)
+        public IActionResult Login(string userName, string password)
         {
-           
-            return Ok(new { Message = "Uspesno logovanje!" });
+            if (!_validateService.isValid(userName, password))
+            {
+                return BadRequest("User not found");
+            }
+
+            if (_userService.CheckForUser(userName, password))
+            {
+                return Ok("User successfully logged in.");
+            }
+            else
+                return NotFound("User with that credentials is not found");
+
+
         }
 
-        [HttpGet("users")]
-        public IActionResult GetAllUsers()
-        {
-            List<User> users = _userRepository.GetAllUsers();
-            return Ok(users);
-        }
     }
 }

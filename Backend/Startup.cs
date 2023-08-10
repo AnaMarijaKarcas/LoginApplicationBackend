@@ -1,5 +1,7 @@
 ﻿using Backend.Data;
+using Backend.Interfaces;
 using Backend.Repo;
+using Backend.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +27,9 @@ namespace Backend
             services.AddControllers();
             services.AddMvc();
 
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IDbRepo, DbRepo>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IValidateService, ValidateService>();
 
             //Add DbContext
             services.AddDbContext<DataContext>(options =>
