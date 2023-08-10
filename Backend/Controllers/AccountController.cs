@@ -23,18 +23,18 @@ namespace Backend.Controllers
             _dataContext = dataContext;
         }
 
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] UserLoginRequest request)
-        {
-           
-            return Ok(new { Message = "Uspesno logovanje!" });
-        }
 
-        [HttpGet("users")]
+        /* [HttpGet("users")]
         public IActionResult GetAllUsers()
         {
             List<User> users = _userRepository.GetAllUsers();
             return Ok(users);
+        } */
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register ([FromBody] User user)
+        {
+
         }
     }
 }
