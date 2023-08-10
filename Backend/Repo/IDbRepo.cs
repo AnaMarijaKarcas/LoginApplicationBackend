@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Backend.Repo
 {
-    public interface IUserRepository
+    public interface IDbRepo
     {
-        public List<User> GetAllUsers();
-        public User GetUserByUsername(string username);
+        public bool Save();
     }
 }
