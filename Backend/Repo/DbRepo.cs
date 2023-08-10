@@ -23,7 +23,11 @@ namespace Backend.Repo
         {
             _context.Add(user);         
         }
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
 
-        
+
     }
 }

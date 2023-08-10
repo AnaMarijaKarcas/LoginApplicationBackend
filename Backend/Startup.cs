@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Data;
+using Backend.Interfaces;
 using Backend.Repo;
+using Backend.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +34,8 @@ namespace Backend
             services.AddMvc();
 
             services.AddScoped<IDbRepo, DbRepo>();
+            services.AddScoped<IUserService, UserService>();
+            
 
             //Add DbContext
             services.AddDbContext<DataContext>(options =>
