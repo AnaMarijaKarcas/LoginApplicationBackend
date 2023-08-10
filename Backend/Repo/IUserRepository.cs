@@ -9,6 +9,5 @@ namespace Backend.Repo
     public interface IUserRepository
     {
         public List<User> GetAllUsers();
-        public User GetUserByUsername(string username);
     }
 }
