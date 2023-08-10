@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Models;
+using Backend.Data;
 
 namespace Backend.Controllers
 {   
@@ -14,27 +15,18 @@ namespace Backend.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly DataContext _dataContext;
 
-        public AccountController(IUserRepository userRepository)
+        public AccountController(IUserRepository userRepository, DataContext dataContext)
         {
             _userRepository = userRepository;
+            _dataContext = dataContext;
         }
 
         [HttpPost("login")]
         public IActionResult Login([FromBody] UserLoginRequest request)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            User user = _userRepository.GetUserByUsername(request.Username);
-
-            if (user == null || user.Password != request.Password)
-            {
-                return Unauthorized();
-            }
-
+           
             return Ok(new { Message = "Uspesno logovanje!" });
         }
 
