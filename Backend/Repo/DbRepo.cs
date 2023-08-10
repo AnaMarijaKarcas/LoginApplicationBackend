@@ -1,4 +1,4 @@
-﻿using Backend.Data;
+using Backend.Data;
 using Backend.Models;
 using System;
 using System.Collections.Generic;

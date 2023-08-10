@@ -1,14 +1,23 @@
+
 ﻿using Backend.Data;
 using Backend.Interfaces;
+
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 using Backend.Repo;
 using Backend.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Microsoft.Extensions.Logging;
 
 namespace Backend
 {
@@ -30,6 +39,7 @@ namespace Backend
             services.AddScoped<IDbRepo, DbRepo>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IValidateService, ValidateService>();
+
 
             //Add DbContext
             services.AddDbContext<DataContext>(options =>
