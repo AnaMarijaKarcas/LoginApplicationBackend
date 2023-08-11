@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Backend.Data;
 using Backend.DTO;
+using Backend.DTOs;
 using Backend.Interfaces;
 using Backend.Models;
 using Backend.Repo;
@@ -11,24 +12,23 @@ namespace Backend.Services
     public class UserService : IUserService
     {
         private readonly IDbRepo _dbRepo;
-        private readonly DataContext _dataContext;
-        public UserService(IDbRepo dbRepo, DataContext dataContext)
+        public UserService(IDbRepo dbRepo)
         {
             _dbRepo = dbRepo;
-            _dataContext = dataContext;
         }
 
-        public bool CheckForUser(string userName, string password)
+        public bool CheckForUser(Login login)
         {
-            var user = _dbRepo.FindUserByEmail(userName);
-            if (user != null && CheckPassword(password, user.Password))
+            
+            var user = _dbRepo.FindUserByEmail(login.UserName);
+            if (user != null && CheckPassword(login.Password, user.Password))
             {
                 return true;
             }
             else return false;
         }
 
-        private bool CheckPassword(string password, string userPassword)
+        public bool CheckPassword(string password, string userPassword)
         {
             if (password == userPassword)
                 return true;
@@ -36,7 +36,7 @@ namespace Backend.Services
                 return false;
         }
        
-        public async Task<bool> RegisterUser(Registration user)
+         public async Task<bool> RegisterUser(Registration user)
 		{
             try
 			{
