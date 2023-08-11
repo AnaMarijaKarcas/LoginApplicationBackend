@@ -7,7 +7,7 @@ using Backend.Repo;
 
 namespace Backend.Services
 {
-    public class UserService : IUserService 
+    public class UserService : IUserService
     {
         private readonly IDbRepo _dbRepo;
         private readonly DataContext _dataContext;
@@ -17,21 +17,30 @@ namespace Backend.Services
             _dataContext = dataContext;
         }
 
-        //public bool CheckForUser(string userName, string password)
-        //{
-        //    if (_dbRepo.FindUserByEmail(userName) != null)
-        //    {
+        public bool CheckForUser(string userName, string password)
+        {
+            var user = _dbRepo.FindUserByEmail(userName);
+            if (user != null && CheckPassword(password, user.Password))
+            {
+                return true;
+            }
+            else return false;
+        }
 
-        //    }
-        //}
-
+        private bool CheckPassword(string password, string userPassword)
+        {
+            if (password == userPassword)
+                return true;
+            else
+                return false;
+        }
        
         public async Task<bool> RegisterUser(User user)
 		{
             try
 			{
                _dbRepo.Save(user);
-                await _dataContext.SaveChangesAsync();
+                await _dbRepo.SaveAsync();
                 return true;
             }
             catch(Exception)
@@ -39,6 +48,5 @@ namespace Backend.Services
                 return false;
 			}
 		}
-
     }
 }
