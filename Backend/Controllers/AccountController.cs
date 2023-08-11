@@ -9,6 +9,7 @@ using Backend.Models;
 using Backend.Data;
 using Backend.Interfaces;
 using Backend.DTOs;
+using Backend.DTO;
 
 namespace Backend.Controllers
 {   
@@ -26,14 +27,16 @@ namespace Backend.Controllers
         }
 
         [HttpPost("login")]
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task<IActionResult> Login([FromBody] Login login)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             if (!_validateService.IsValid(login))
             {
                 return StatusCode(400, new { message = "There was an error in credentials" });
             }
-
-            if (_userService.CheckForUser(login.UserName, login.Password))
+            
+            if (_userService.CheckForUser(login))
             {
                 return StatusCode(200, new { message = "User successfully logged in." });
             }
@@ -43,9 +46,9 @@ namespace Backend.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] User user)
+        public async Task<IActionResult> Register([FromBody] Registration register)
 		{
-            bool retVal =  await _userService.RegisterUser(user);
+            bool retVal =  await _userService.RegisterUser(register);
 
             if (retVal)
             {

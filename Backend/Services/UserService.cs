@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Backend.Data;
+using Backend.DTO;
 using Backend.DTOs;
 using Backend.Interfaces;
 using Backend.Models;
@@ -16,8 +17,9 @@ namespace Backend.Services
             _dbRepo = dbRepo;
         }
 
-        public async Task<bool> CheckForUser(Login login)
+        public bool CheckForUser(Login login)
         {
+            
             var user = _dbRepo.FindUserByEmail(login.UserName);
             if (user != null && CheckPassword(login.Password, user.Password))
             {
@@ -34,7 +36,7 @@ namespace Backend.Services
                 return false;
         }
        
-         public async Task<bool> RegisterUser(User user)
+         public async Task<bool> RegisterUser(Registration user)
 		{
             try
 			{
