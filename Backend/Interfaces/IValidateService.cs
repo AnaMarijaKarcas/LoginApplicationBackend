@@ -3,6 +3,6 @@ namespace Backend.Interfaces
 {
     public interface IValidateService
     {
-        public Boolean isValid(string userName, string password);
+        public bool isValid(string userName, string password);
     }
 }

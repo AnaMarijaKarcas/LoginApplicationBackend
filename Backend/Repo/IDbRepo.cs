@@ -10,5 +10,6 @@ namespace Backend.Repo
     {
         public void Save(User user);
         public User FindUserByEmail(string email);
+        Task SaveAsync();
     }
 }

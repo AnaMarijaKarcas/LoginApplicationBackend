@@ -1,4 +1,4 @@
-﻿using Backend.Data;
+using Backend.Data;
 using Backend.Models;
 using System;
 using System.Collections.Generic;
@@ -11,18 +11,21 @@ namespace Backend.Repo
     {
         private readonly DataContext _context;
         public DbRepo(DataContext context)
-		{
+        {
             _context = context;
-		}
+        }
         public User FindUserByEmail(string email)
         {
-            throw new NotImplementedException();
+            return _context.Users.FirstOrDefault(u => u.Email == email);
         }
 
         public void Save(User user)
         {
-            _context.Add(user);         
+            _context.Users.Add(user);
+
         }
+
+
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();

@@ -16,7 +16,30 @@ namespace Backend.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IUserService _userService;
- 
+        private readonly IValidateService _validateService;
+
+        public AccountController(IUserService userService, IValidateService validateService)
+        {
+            _userService = userService;
+            _validateService = validateService;
+        }
+
+        [HttpPost("login")]
+        public IActionResult Login(string userName, string password)
+        {
+            if (!_validateService.isValid(userName, password))
+            {
+                return BadRequest("User not found");
+            }
+
+            if (_userService.CheckForUser(userName, password))
+            {
+                return Ok("User successfully logged in.");
+            }
+            else
+                return NotFound("User with that credentials is not found");
+
+        }
         public AccountController(IUserService userService)
         {
             _userService = userService;
