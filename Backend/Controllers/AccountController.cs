@@ -39,7 +39,28 @@ namespace Backend.Controllers
             else
                 return NotFound("User with that credentials is not found");
 
-
         }
+        public AccountController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] User user)
+		{
+            bool retVal =  await _userService.RegisterUser(user);
+
+            if (retVal)
+            {
+                return Ok(new 
+                { 
+                    message = "User registration successful!" });
+            }
+            else
+            {
+                return StatusCode(500, new { message = "User registration failed." });
+            }
+        }
+
     }
 }

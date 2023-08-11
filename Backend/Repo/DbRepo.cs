@@ -19,12 +19,18 @@ namespace Backend.Repo
             return _context.Users.FirstOrDefault(u => u.Email == email);
         }
 
-        public bool Save()
+        public void Save(User user)
         {
-            return _context.SaveChanges() >= 0;
+            _context.Users.Add(user);
 
         }
 
-        
+
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
+
+
     }
 }
