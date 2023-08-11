@@ -1,10 +1,13 @@
-﻿using Backend.Models;
 using System;
+using Backend.DTOs;
+﻿using Backend.Models;
+
+
 namespace Backend.Interfaces
 {
     public interface IValidateService
     {
-        public bool isValid(string userName, string password);
+        public bool IsValid(Login login);
         public bool isValidRegistration(User user);
     }
 }
