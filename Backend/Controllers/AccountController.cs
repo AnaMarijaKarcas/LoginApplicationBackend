@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Backend.Models;
 using Backend.Data;
 using Backend.Interfaces;
+using Backend.DTOs;
 
 namespace Backend.Controllers
 {   
@@ -25,24 +26,20 @@ namespace Backend.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(string userName, string password)
+        public async Task<IActionResult> Login([FromBody] Login login)
         {
-            if (!_validateService.isValid(userName, password))
+            if (!_validateService.IsValid(login))
             {
-                return BadRequest("User not found");
+                return StatusCode(400, new { message = "There was an error in credentials" });
             }
 
-            if (_userService.CheckForUser(userName, password))
+            if (_userService.CheckForUser(login.UserName, login.Password))
             {
-                return Ok("User successfully logged in.");
+                return StatusCode(200, new { message = "User successfully logged in." });
             }
             else
-                return NotFound("User with that credentials is not found");
+                return StatusCode(400, new { message = "User with that credentials is not found" });
 
-        }
-        public AccountController(IUserService userService)
-        {
-            _userService = userService;
         }
 
         [HttpPost("register")]

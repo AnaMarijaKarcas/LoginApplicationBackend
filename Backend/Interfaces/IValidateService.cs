@@ -1,8 +1,10 @@
 ﻿using System;
+using Backend.DTOs;
+
 namespace Backend.Interfaces
 {
     public interface IValidateService
     {
-        public bool isValid(string userName, string password);
+        public bool IsValid(Login login);
     }
 }

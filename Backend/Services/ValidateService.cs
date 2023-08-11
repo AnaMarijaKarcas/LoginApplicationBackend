@@ -1,4 +1,5 @@
 ﻿using System;
+using Backend.DTOs;
 using Backend.Interfaces;
 
 namespace Backend.Services
@@ -9,10 +10,9 @@ namespace Backend.Services
         {
         }
 
-        public bool isValid(string userName, string password)
+        public bool IsValid(Login login)
         {
-            //provera duzine, sadrzaja,...
-            if (userName == null || password == null)
+            if (string.IsNullOrEmpty(login.UserName) || string.IsNullOrEmpty(login.UserName))
                 return false;
             else
                 return true;
