@@ -43,7 +43,7 @@ namespace Backend.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDTO register)
+        public async Task<IActionResult> Register([FromBody] Registration register)
 		{
             bool retVal =  await _userService.RegisterUser(register);
 
