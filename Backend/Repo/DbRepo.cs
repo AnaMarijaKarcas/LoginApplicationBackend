@@ -1,4 +1,5 @@
-﻿using Backend.Models;
+﻿using Backend.Data;
+using Backend.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +9,25 @@ namespace Backend.Repo
 {
     public class DbRepo : IDbRepo
     {
+        private readonly DataContext _context;
+        public DbRepo(DataContext context)
+		{
+            _context = context;
+		}
         public User FindUserByEmail(string email)
         {
             throw new NotImplementedException();
         }
 
-        public bool Save()
+        public void Save(User user)
         {
-            throw new NotImplementedException();
+            _context.Add(user);         
+        }
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
         }
 
-        
+
     }
 }

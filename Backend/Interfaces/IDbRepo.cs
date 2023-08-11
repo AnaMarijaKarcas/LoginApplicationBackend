@@ -8,7 +8,7 @@ namespace Backend.Repo
 {
     public interface IDbRepo
     {
-        public void Save(User user);
+        public void SaveUser(User user);
         public User FindUserByEmail(string email);
     }
 }
