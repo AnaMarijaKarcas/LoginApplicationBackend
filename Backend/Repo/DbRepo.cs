@@ -1,4 +1,5 @@
 using Backend.Data;
+using Backend.DTO;
 using Backend.Models;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,9 @@ namespace Backend.Repo
             return _context.Users.FirstOrDefault(u => u.Email == email);
         }
 
-        public void Save(User user)
+        public void Save(Registration register)
         {
+            User user = new User { Email = register.Email, FirstName = register.FirstName, LastName = register.LastName, Password = register.Password };
             _context.Users.Add(user);
 
         }
@@ -31,6 +33,9 @@ namespace Backend.Repo
             await _context.SaveChangesAsync();
         }
 
-
+        public void SaveUser(User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

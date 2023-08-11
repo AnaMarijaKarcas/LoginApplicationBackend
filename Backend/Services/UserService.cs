@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Backend.Data;
+using Backend.DTO;
 using Backend.Interfaces;
 using Backend.Models;
 using Backend.Repo;
@@ -35,7 +36,7 @@ namespace Backend.Services
                 return false;
         }
        
-        public async Task<bool> RegisterUser(User user)
+        public async Task<bool> RegisterUser(Registration user)
 		{
             try
 			{

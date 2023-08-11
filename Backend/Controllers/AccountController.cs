@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Backend.Models;
 using Backend.Data;
 using Backend.Interfaces;
+using Backend.DTO;
 
 namespace Backend.Controllers
 {   
@@ -40,15 +41,11 @@ namespace Backend.Controllers
                 return NotFound("User with that credentials is not found");
 
         }
-        public AccountController(IUserService userService)
-        {
-            _userService = userService;
-        }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] User user)
+        public async Task<IActionResult> Register([FromBody] RegisterDTO register)
 		{
-            bool retVal =  await _userService.RegisterUser(user);
+            bool retVal =  await _userService.RegisterUser(register);
 
             if (retVal)
             {
