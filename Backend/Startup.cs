@@ -45,6 +45,13 @@ namespace Backend
             //Add DbContext
             services.AddDbContext<DataContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("BackendAppConnectionString")));
+
+            //Add CORS
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowsOrigin", options => options.AllowAnyOrigin().AllowAnyMethod()
+                .AllowAnyHeader());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +66,8 @@ namespace Backend
 
             app.UseRouting();
 
+            app.UseCors("AllowsOrigin");
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -66,7 +75,6 @@ namespace Backend
                 endpoints.MapControllers();
             });
 
-            
         }
 
         
