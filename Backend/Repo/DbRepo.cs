@@ -17,12 +17,13 @@ namespace Backend.Repo
         }
         public User FindUserByEmail(string email)
         {
-            return _context.Users.FirstOrDefault(u => u.Email == email);
+            return _context.Users.FirstOrDefault(u => u.UserName == email);
         }
 
         public void Save(Registration register)
         {
-            User user = new() { Email = register.Email, FirstName = register.FirstName, LastName = register.LastName, Password = register.Password };
+            User user = new(register.FirstName, register.LastName,register.UserName, register.Password);
+
             _context.Users.Add(user);
 
         }

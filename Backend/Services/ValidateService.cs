@@ -21,7 +21,7 @@ namespace Backend.Services
 
         public bool isValidRegistration(User user)
         {
-            if (string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Password) || string.IsNullOrEmpty(user.FirstName)
+            if (string.IsNullOrEmpty(user.UserName) || string.IsNullOrEmpty(user.Password) || string.IsNullOrEmpty(user.FirstName)
                 || string.IsNullOrEmpty(user.LastName))
                 return false;
             else
