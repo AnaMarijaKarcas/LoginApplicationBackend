@@ -11,6 +11,7 @@ using Backend.Interfaces;
 using Backend.DTOs;
 using Backend.DTO;
 using Microsoft.AspNetCore.Cors;
+using BCrypt;
 
 namespace Backend.Controllers
 {   
@@ -27,7 +28,6 @@ namespace Backend.Controllers
             _validateService = validateService;
         }
 
-        [EnableCors("AllowsOrigin")]
         [HttpPost("login")]
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task<IActionResult> Login([FromBody] Login login)
@@ -47,7 +47,6 @@ namespace Backend.Controllers
 
         }
 
-        [EnableCors("AllowsOrigin")]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Registration register)
 		{
