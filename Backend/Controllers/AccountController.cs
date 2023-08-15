@@ -19,12 +19,10 @@ namespace Backend.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IValidateService _validateService;
 
-        public AccountController(IUserService userService, IValidateService validateService)
+        public AccountController(IUserService userService)
         {
             _userService = userService;
-            _validateService = validateService;
         }
 
         [EnableCors("AllowsOrigin")]
@@ -33,12 +31,7 @@ namespace Backend.Controllers
         public async Task<IActionResult> Login([FromBody] Login login)
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
-            if (!_validateService.IsValid(login))
-            {
-                return StatusCode(400, new { message = "There was an error in credentials" });
-            }
-            
-            if (_userService.CheckForUser(login))
+            if (_userService.CheckUser(login))
             {
                 return StatusCode(200, new { message = "User successfully logged in." });
             }
