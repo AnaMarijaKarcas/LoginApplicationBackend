@@ -22,7 +22,7 @@ namespace Backend.Repo
 
         public void Save(Registration register)
         {
-            User user = new User { UserName = register.UserName, FirstName = register.FirstName, LastName = register.LastName, Password = register.Password };
+            User user = new User(register.FirstName, register.LastName,register.UserName, register.Password);
             _context.Users.Add(user);
 
         }
