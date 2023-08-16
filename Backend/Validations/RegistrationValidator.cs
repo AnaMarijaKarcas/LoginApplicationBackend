@@ -14,7 +14,7 @@ namespace Backend.Validations
             RuleFor(registration => registration.FirstName).NotEmpty().WithMessage("First name cannot be empty.");
             RuleFor(registration => registration.LastName).NotEmpty().WithMessage("Last name cannot be empty.");
             RuleFor(registration => registration.UserName).NotEmpty().WithMessage("Username cannot be empty.");
-            RuleFor(registration => registration.UserName).NotEmpty().EmailAddress().WithMessage("Email address not valid.");
+            RuleFor(registration => registration.Email).NotEmpty().EmailAddress().WithMessage("Email address not valid.");
             RuleFor(registration => registration.Password).NotEmpty().MinimumLength(8).WithMessage("Must be at least 8 characters long.");
         }
 
