@@ -7,6 +7,7 @@ using Backend.DTOs;
 using Backend.Interfaces;
 using Backend.Models;
 using Backend.Repo;
+using BCrypt;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Services
@@ -19,7 +20,7 @@ namespace Backend.Services
             _dbRepo = dbRepo;
         }
 
-        public bool CheckForUser(Login login)
+        public bool CheckUser(Login login)
         {
             
             var user = _dbRepo.FindUserByEmail(login.UserName);
@@ -30,9 +31,9 @@ namespace Backend.Services
             else return false;
         }
 
-        public bool CheckPassword(string password, string userPassword)
+        private bool CheckPassword(string password, string userPassword)
         {
-            if (password == userPassword)
+            if(BCrypt.Net.BCrypt.Verify(password, userPassword))
                 return true;
             else
                 return false;
