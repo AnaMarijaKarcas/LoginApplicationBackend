@@ -15,44 +15,34 @@ namespace Backend.Services
     public class UserService : IUserService
     {
         private readonly IDbRepo _dbRepo;
-        public UserService(IDbRepo dbRepo)
+        private readonly ICryptography _cryptography;
+        public UserService(ICryptography cryptography, IDbRepo dbRepo)
         {
             _dbRepo = dbRepo;
+            _cryptography = cryptography;
         }
 
         public bool CheckUser(Login login)
         {
             
             var user = _dbRepo.FindUserByEmail(login.UserName);
-            if (user != null && CheckPassword(login.Password, user.Password))
-            {
+            if (user != null && _cryptography.VerifyPassword(login.Password, user.Password))
                 return true;
-            }
-            else return false;
+            return false;
         }
 
-        private bool CheckPassword(string password, string userPassword)
-        {
-            if(BCrypt.Net.BCrypt.Verify(password, userPassword))
-                return true;
-            else
-                return false;
-        }
+        
        
          public async Task<bool> RegisterUser(Registration user)
 		{
-            try
-			{
-                string passHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
-                user.Password = passHash;
+            if (!_dbRepo.DoesUserExist(user.Email, user.UserName))
+            {
+                user.Password = _cryptography.EncryptPassword(user.Password);
                 _dbRepo.Save(user);
                 await _dbRepo.SaveAsync();
                 return true;
             }
-            catch(Exception)
-			{
-                return false;
-			}
+            return false;
 		}
         
         public async Task<List<User>> GetAllUsers()

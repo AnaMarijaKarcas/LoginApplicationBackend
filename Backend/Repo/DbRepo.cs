@@ -46,5 +46,10 @@ namespace Backend.Repo
         {
             return await _context.Users.ToListAsync();
         }
+
+        public bool DoesUserExist(string email, string username)
+        {
+            return _context.Users.Any(u => u.Email == email || u.UserName == username);
+        }
     }
 }
