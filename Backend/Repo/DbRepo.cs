@@ -23,11 +23,9 @@ namespace Backend.Repo
 
         public void Save(Registration register)
         {
-<<<<<<< HEAD
-            User user = new User(register.FirstName, register.LastName,register.Email, register.Username, register.Password);
-=======
+
             User user = new User(register.FirstName, register.LastName,register.UserName, register.Email, register.Password);
->>>>>>> develop
+
 
             _context.Users.Add(user);
 
