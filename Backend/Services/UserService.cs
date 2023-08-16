@@ -35,21 +35,14 @@ namespace Backend.Services
        
          public async Task<bool> RegisterUser(Registration user)
 		{
-            if (_dbRepo.DoesUserExist(user.Email, user.UserName))
+            if (!_dbRepo.DoesUserExist(user.Email, user.UserName))
             {
-                throw new Exception("An error occured while registering the user.");
-            }
-            try
-			{
-                 user.Password = _cryptography.EncryptPassword(user.Password);
+                user.Password = _cryptography.EncryptPassword(user.Password);
                 _dbRepo.Save(user);
                 await _dbRepo.SaveAsync();
                 return true;
             }
-            catch(Exception e)
-			{
-                throw new Exception("An error occurred while registering the user.", e);
-            }
+            return false;
 		}
         
         public async Task<List<User>> GetAllUsers()
