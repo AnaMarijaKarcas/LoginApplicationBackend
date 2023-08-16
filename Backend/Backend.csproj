@@ -27,7 +27,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="DTOs\" />
   </ItemGroup>
 </Project>

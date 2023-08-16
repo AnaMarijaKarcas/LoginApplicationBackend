@@ -23,7 +23,9 @@ namespace Backend.Repo
 
         public void Save(Registration register)
         {
+
             User user = new User(register.FirstName, register.LastName,register.UserName, register.Email, register.Password);
+
 
             _context.Users.Add(user);
 
@@ -43,6 +45,11 @@ namespace Backend.Repo
         public async Task<List<User>> GetAllUsers()
         {
             return await _context.Users.ToListAsync();
+        }
+
+        public bool DoesUserExist(string email, string username)
+        {
+            return _context.Users.Any(u => u.Email == email || u.UserName == username);
         }
     }
 }
