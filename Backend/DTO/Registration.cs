@@ -12,15 +12,16 @@ namespace Backend.DTO
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string UserName { get; set; }
+
         public string Email { get; set; }
+        public string UserName { get; set; }
         public string Password { get; set; }
         
-        public Registration(string firstName, string lastName, string userName, string email, string password)
+        public Registration(string firstName, string lastName, string email, string password, string username)
         {
             FirstName = firstName;
             LastName = lastName;
-            UserName = userName;
+            UserName = username;
             Email = email;
             Password = password;
 
