@@ -23,7 +23,7 @@ namespace Backend.Services
         public bool CheckUser(Login login)
         {
             
-            var user = _dbRepo.FindUserByEmail(login.UserName);
+            var user = _dbRepo.FindUserByUserName(login.UserName);
             if (user != null && CheckPassword(login.Password, user.Password))
             {
                 return true;
@@ -33,10 +33,7 @@ namespace Backend.Services
 
         private bool CheckPassword(string password, string userPassword)
         {
-            if(BCrypt.Net.BCrypt.Verify(password, userPassword))
-                return true;
-            else
-                return false;
+            return BCrypt.Net.BCrypt.Verify(password, userPassword);
         }
        
          public async Task<bool> RegisterUser(Registration user)

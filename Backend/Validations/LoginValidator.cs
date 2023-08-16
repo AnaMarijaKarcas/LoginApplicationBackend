@@ -9,7 +9,7 @@ namespace Backend.Validations
     {
         public LoginValidator()
         {
-            RuleFor(login => login.UserName).NotEmpty().EmailAddress().WithMessage("Email address not valid.");
+            RuleFor(login => login.UserName).NotEmpty().WithMessage("Email address not valid.");
             RuleFor(login => login.Password).NotEmpty().MinimumLength(8).WithMessage("Must be at least 8 characters long.");
         }
         public void ValidateAndThrow(Login login)
