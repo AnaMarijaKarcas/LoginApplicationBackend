@@ -31,8 +31,6 @@ namespace Backend.Services
             return false;
         }
 
-        
-       
          public async Task<bool> RegisterUser(Registration user)
 		{
             if (!_dbRepo.DoesUserExist(user.Email, user.UserName))
