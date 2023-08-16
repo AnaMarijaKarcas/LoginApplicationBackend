@@ -11,6 +11,8 @@ namespace Backend.Repo
     {
         public void Save(Registration register);
         public User FindUserByEmail(string email);
+        public Task<List<User>> GetAllUsers();
+
         Task SaveAsync();
     }
 }
