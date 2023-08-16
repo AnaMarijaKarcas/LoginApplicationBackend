@@ -31,30 +31,34 @@ namespace Backend.Controllers
         public async Task<IActionResult> Login([FromBody] Login login)
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
-            if (_userService.CheckUser(login))
+            try
             {
-                return StatusCode(200, new { message = "User successfully logged in." });
-            }
-            else
+                if (_userService.CheckUser(login))
+                    return StatusCode(200, new { message = "User successfully logged in." });
                 return StatusCode(400, new { message = "User with that credentials is not found" });
-
+            }
+            catch (Exception)
+            {
+                throw new Exception("An error occured");
+            }
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Registration register)
 		{
-            bool retVal =  await _userService.RegisterUser(register);
-
-            if (retVal)
+            
+            try
             {
-                return Ok(new 
-                { 
-                    message = "User registration successful!" });
-            }
-            else
-            {
+                bool retVal = await _userService.RegisterUser(register);
+                if (retVal)
+                    return Ok(new{message = "User registration successful!"});
                 return StatusCode(500, new { message = "User registration failed." });
             }
+            catch (Exception)
+            {
+                throw new Exception("An error occured");
+            }
+            
         }
 
     }

@@ -24,14 +24,11 @@ namespace Backend.Services
 
         public bool CheckUser(Login login)
         {
-            
-            var user = _dbRepo.FindUserByEmail(login.UserName);
+            var user = _dbRepo.FindUserByUserName(login.UserName);
             if (user != null && _cryptography.VerifyPassword(login.Password, user.Password))
                 return true;
             return false;
         }
-
-        
        
          public async Task<bool> RegisterUser(Registration user)
 		{
