@@ -1,6 +1,7 @@
 using Backend.Data;
 using Backend.DTO;
 using Backend.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,11 @@ namespace Backend.Repo
         public void SaveUser(User user)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<User>> GetAllUsers()
+        {
+            return await _context.Users.ToListAsync();
         }
     }
 }

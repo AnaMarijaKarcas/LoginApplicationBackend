@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Backend.Data;
 using Backend.DTO;
@@ -6,6 +7,7 @@ using Backend.DTOs;
 using Backend.Interfaces;
 using Backend.Models;
 using Backend.Repo;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Services
 {
@@ -40,7 +42,9 @@ namespace Backend.Services
 		{
             try
 			{
-               _dbRepo.Save(user);
+                string passHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                user.Password = passHash;
+                _dbRepo.Save(user);
                 await _dbRepo.SaveAsync();
                 return true;
             }
@@ -49,5 +53,11 @@ namespace Backend.Services
                 return false;
 			}
 		}
+        
+        public async Task<List<User>> GetAllUsers()
+        {
+            List<User> users = await _dbRepo.GetAllUsers();
+            return users;
+        }
     }
 }
