@@ -39,11 +39,7 @@ namespace Backend
             
             services.AddScoped<IDbRepo, DbRepo>();
             services.AddScoped<IUserService, UserService>();
-<<<<<<< HEAD
-           
-=======
             services.AddScoped<ICryptography, Cryptography.Cryptography>();
->>>>>>> develop
             services.AddScoped<IValidateService, ValidateService>();
             services.AddScoped<ICryptography, Cryptography.Cryptography>();
             //Add DbContext
