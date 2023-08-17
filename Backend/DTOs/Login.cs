@@ -9,9 +9,15 @@ namespace Backend.DTOs
         public string Password { get; set; }
 
         public Login()
+<<<<<<< HEAD
+        {
+
+        }
+=======
 		{
 
 		}
+>>>>>>> develop
         public Login(string userName, string password)
         {
             UserName = userName;

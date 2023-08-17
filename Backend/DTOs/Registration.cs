@@ -12,20 +12,30 @@ namespace Backend.DTO
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+<<<<<<< HEAD:Backend/DTOs/Registration.cs
+=======
         public string Email { get; set; }
+>>>>>>> develop:Backend/DTO/Registration.cs
         public string UserName { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
         
         public Registration()
+<<<<<<< HEAD:Backend/DTOs/Registration.cs
+        {
+
+        }
+        public Registration(string firstName, string lastName, string userName, string email, string password)
+=======
 		{
 
 		}
         public Registration(string firstName, string lastName, string email, string password, string username)
+>>>>>>> develop:Backend/DTO/Registration.cs
         {
             FirstName = firstName;
             LastName = lastName;
-            UserName = username;
-            Email = email;
+            UserName = email;
             Password = password;
 
             var validator = new RegistrationValidator();
