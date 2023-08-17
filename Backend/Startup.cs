@@ -39,7 +39,6 @@ namespace Backend
 
             services.AddScoped<IDbRepo, DbRepo>();
             services.AddScoped<IUserService, UserService>();
-
             services.AddScoped<IValidateService, ValidateService>();
 
             //Add DbContext
