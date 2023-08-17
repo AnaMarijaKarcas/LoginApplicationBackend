@@ -12,11 +12,13 @@ using Backend.DTOs;
 using Backend.DTO;
 using Microsoft.AspNetCore.Cors;
 using BCrypt;
+using Backend.Enums;
 
 namespace Backend.Controllers
 {   
     [ApiController]
     [Route("api/[controller]")]
+    [EnableCors]
     public class AccountController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -31,30 +33,34 @@ namespace Backend.Controllers
         public async Task<IActionResult> Login([FromBody] Login login)
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
-            if (_userService.CheckUser(login))
+            try
             {
-                return StatusCode(200, new { message = "User successfully logged in." });
+                if (_userService.CheckUser(login))
+                    return Ok(StatusCodesEnums.UserLoginSuccessful);
+                return BadRequest(StatusCodesEnums.InvalidCredentials);
             }
-            else
-                return StatusCode(400, new { message = "User with that credentials is not found" });
-
+            catch (Exception)
+            {
+                return StatusCode(500, StatusCodesEnums.ServerError);
+            }
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Registration register)
 		{
-            bool retVal =  await _userService.RegisterUser(register);
+            
+            try
+            {
+                bool retVal = await _userService.RegisterUser(register);
+                if (retVal)
+                    return Ok(StatusCodesEnums.UserRegistrationSuccessful);
+                return StatusCode(400, StatusCodesEnums.UserAlreadyRegistered);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, StatusCodesEnums.UserRegistrationFailed);
+            }
 
-            if (retVal)
-            {
-                return Ok(new 
-                { 
-                    message = "User registration successful!" });
-            }
-            else
-            {
-                return StatusCode(500, new { message = "User registration failed." });
-            }
         }
 
     }

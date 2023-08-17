@@ -34,24 +34,41 @@ namespace Backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddMvc();
-
+            
             services.AddScoped<IDbRepo, DbRepo>();
             services.AddScoped<IUserService, UserService>();
-
+           
             services.AddScoped<IValidateService, ValidateService>();
-
+            services.AddScoped<ICryptography, Cryptography.Cryptography>();
             //Add DbContext
             services.AddDbContext<DataContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("BackendAppConnectionString")));
 
             //Add CORS
-            services.AddCors(c =>
+            services.AddCors(options =>
             {
-                c.AddPolicy("AllowsOrigin", options => options.AllowAnyOrigin().AllowAnyMethod()
-                .AllowAnyHeader());
+                options.AddPolicy("AllowAngularOrigins",
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+                });
             });
+            services.AddControllers();
+
+            services.AddMvc();
+
+
+            //services.AddCors(c =>
+            //{
+            //    c.AddDefaultPolicy(builder =>
+            //    {
+            //        builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+            //    });
+            //    //c.AddPolicy("AllowsOrigin", options => options.WithOrigins("http://localhost:4200/*").AllowAnyMethod()
+            //    //.AllowAnyHeader());
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,11 +79,12 @@ namespace Backend
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseCors("AllowsOrigin");
+            app.UseCors("AllowAngularOrigins");
+
+            app.UseHttpsRedirection();
 
             app.UseAuthorization();
 

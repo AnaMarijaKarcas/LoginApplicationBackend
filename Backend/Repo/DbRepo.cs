@@ -16,9 +16,9 @@ namespace Backend.Repo
         {
             _context = context;
         }
-        public User FindUserByEmail(string email)
+        public User FindUserByUserName(string userName)
         {
-            return  _context.Users.FirstOrDefault(u => u.UserName == email);
+            return _context.Users.FirstOrDefault(u => u.UserName == userName);
         }
 
         public void Save(Registration register)
