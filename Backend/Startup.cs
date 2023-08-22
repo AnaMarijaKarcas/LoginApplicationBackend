@@ -19,7 +19,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
+using System.IO;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Backend
 {
@@ -28,6 +30,14 @@ namespace Backend
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            var secretsConfig = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("secrets.json", optional: true, reloadOnChange: true)
+                .Build();
+            Configuration = new ConfigurationBuilder()
+                .AddConfiguration(Configuration)
+                .AddConfiguration(secretsConfig)
+                .Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -36,11 +46,22 @@ namespace Backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
             services.AddScoped<IDbRepo, DbRepo>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICryptography, Cryptography.Cryptography>();
             services.AddScoped<IValidateService, ValidateService>();
+            services.AddScoped<ITokenService, TokenService>();
+
+            services.AddAuthentication().AddJwtBearer(options =>
+              {
+                  options.TokenValidationParameters = new TokenValidationParameters
+                  {
+                      ValidateIssuerSigningKey = true,
+                      ValidateAudience = false,
+                      ValidateIssuer = false,
+                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSigningKey"]))
+                  };
+              });
             //Add DbContext
             services.AddDbContext<DataContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("BackendAppConnectionString")));

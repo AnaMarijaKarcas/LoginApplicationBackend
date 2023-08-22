@@ -9,7 +9,6 @@ namespace Backend.Enums
     {
         UserAlreadyRegistered,
         UserRegistrationSuccessful,
-        UserRegistrationFailed,
         ServerError,
         UserLoginSuccessful,
         InvalidCredentials
