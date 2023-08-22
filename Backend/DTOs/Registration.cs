@@ -26,6 +26,7 @@ namespace Backend.DTO
             LastName = lastName;
             UserName = email;
             Password = password;
+            UserName = username;
 
             var validator = new RegistrationValidator();
             validator.ValidateAndThrow(this);

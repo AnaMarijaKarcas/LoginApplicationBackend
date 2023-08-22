@@ -18,13 +18,13 @@ namespace Backend.Repo
         }
         public User FindUserByUserName(string userName)
         {
-            return _context.Users.FirstOrDefault(u => u.UserName == userName);
+            return  _context.Users.FirstOrDefault(u => u.UserName == userName);
         }
 
         public void Save(Registration register)
         {
 
-            User user = new User(register.FirstName, register.LastName,register.UserName, register.Email, register.Password);
+            User user = new User(register.FirstName, register.LastName,register.UserName, register.Email, register.Password, "user");
 
 
             _context.Users.Add(user);

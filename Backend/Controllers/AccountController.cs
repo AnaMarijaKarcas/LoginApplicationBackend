@@ -13,6 +13,10 @@ using Backend.DTO;
 using Microsoft.AspNetCore.Cors;
 using BCrypt;
 using Backend.Enums;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Backend.Controllers
 {   
@@ -22,22 +26,23 @@ namespace Backend.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly ITokenService _tokenService;
 
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService,ITokenService tokenService)
         {
             _userService = userService;
+            _tokenService = tokenService;
         }
 
-        [HttpPost("login")]
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        public async Task<IActionResult> Login([FromBody] Login login)
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+        [HttpGet("login")]
+        public IActionResult Login([FromBody] Login login)
         {
             try
             {
-                if (_userService.CheckUser(login))
-                    return Ok(StatusCodesEnums.UserLoginSuccessful);
-                return BadRequest(StatusCodesEnums.InvalidCredentials);
+                if (!_userService.CheckUser(login))
+                        return Unauthorized();
+                return Ok(_tokenService.CreateToken(login));
+                
             }
             catch (Exception)
             {
@@ -62,5 +67,6 @@ namespace Backend.Controllers
 
         }
 
+        
     }
 }
