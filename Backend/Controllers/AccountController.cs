@@ -52,12 +52,12 @@ namespace Backend.Controllers
             {
                 bool retVal = await _userService.RegisterUser(register);
                 if (retVal)
-                    return Ok(StatusCodesEnums.UserRegistrationSuccessful);
+                    return Ok("OK");
                 return StatusCode(400, StatusCodesEnums.UserAlreadyRegistered);
             }
             catch (Exception)
             {
-                return StatusCode(500, StatusCodesEnums.UserRegistrationFailed);
+                return StatusCode(500, StatusCodesEnums.ServerError);
             }
 
         }

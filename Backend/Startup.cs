@@ -39,8 +39,9 @@ namespace Backend
             
             services.AddScoped<IDbRepo, DbRepo>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ICryptography, Cryptography.Cryptography>();
+
             services.AddScoped<IValidateService, ValidateService>();
+            services.AddScoped<ICryptography, Cryptography.Cryptography>();
             //Add DbContext
             services.AddDbContext<DataContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("BackendAppConnectionString")));
