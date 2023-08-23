@@ -34,21 +34,21 @@ namespace Backend.Controllers
             _tokenService = tokenService;
         }
 
-        [HttpGet("login")]
+        [HttpPost("login")]
         public IActionResult Login([FromBody] Login login)
         {
             try
             {
                 if (!_userService.CheckUser(login))
-                        return Unauthorized();
-                return Ok(_tokenService.CreateToken(login));
-                
-            }
+                        return BadRequest(StatusCodesEnums.InvalidCredentials);
+            return Ok(_tokenService.CreateToken(login.UserName));
+
+        }
             catch (Exception)
             {
                 return StatusCode(500, StatusCodesEnums.ServerError);
-            }
-        }
+    }
+}
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Registration register)
@@ -57,15 +57,16 @@ namespace Backend.Controllers
             {
                 bool retVal = await _userService.RegisterUser(register);
                 if (retVal)
-                    return Ok(StatusCodesEnums.UserRegistrationSuccessful);
+                    return Ok(new { success = true, message = "Registration successful" });
+
                 return StatusCode(400, StatusCodesEnums.UserAlreadyRegistered);
-            }
+        }
             catch (Exception)
             {
                 return StatusCode(500, StatusCodesEnums.ServerError);
-            }
+    }
 
-        }
+}
 
         
     }

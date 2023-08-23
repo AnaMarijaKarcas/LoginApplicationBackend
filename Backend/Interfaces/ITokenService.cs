@@ -5,6 +5,6 @@ namespace Backend.Interfaces
 {
     public interface ITokenService
     {
-        string CreateToken(Login login);
+        string CreateToken(string username);
     }
 }

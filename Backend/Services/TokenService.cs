@@ -8,6 +8,7 @@ using Backend.Interfaces;
 using Backend.Repo;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace Backend.Services
 {
@@ -21,18 +22,16 @@ namespace Backend.Services
             _dbRepo = dbRepo;
         }
 
-        public string CreateToken(Login login)
+        public string CreateToken(string username)
         {
-            var user = _dbRepo.FindUserByUserName(login.UserName);
-            if (user == null)
-            {
-                return "User not found";
-            }
+    
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Name, username)
             };
+
+
+
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSigningKey"]));
             var cred = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
@@ -42,8 +41,9 @@ namespace Backend.Services
                     signingCredentials: cred
                 );
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+            string response = JsonConvert.ToString(jwt);
 
-            return jwt;
+            return response;
         }
 
     }
