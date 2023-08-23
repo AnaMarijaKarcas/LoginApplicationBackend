@@ -1,5 +1,6 @@
 ﻿using Backend.Interfaces;
 using Backend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,6 +20,7 @@ namespace Backend.Controllers
             _userService = userService;
         }
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetUsers()
         {
             try

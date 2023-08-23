@@ -22,6 +22,7 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Backend
 {
@@ -50,12 +51,15 @@ namespace Backend
             services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<IValidateService, ValidateService>();
-
             services.AddScoped<ICryptography, Cryptography.Cryptography>();
-
+            services.AddScoped<IValidateService, ValidateService>();
             services.AddScoped<ITokenService, TokenService>();
 
-            services.AddAuthentication().AddJwtBearer(options =>
+            services.AddAuthentication(o => {
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
               {
                   options.TokenValidationParameters = new TokenValidationParameters
                   {
@@ -65,7 +69,6 @@ namespace Backend
                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSigningKey"]))
                   };
               });
-
             //Add DbContext
             services.AddDbContext<DataContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("BackendAppConnectionString")));
@@ -111,6 +114,8 @@ namespace Backend
             app.UseCors("AllowAngularOrigins");
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
